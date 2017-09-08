@@ -272,6 +272,10 @@ class Task
         $this->comments->removeElement($comments);
     }
 
-
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->title;
+    }
 
 }
