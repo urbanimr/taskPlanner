@@ -2,7 +2,6 @@
 
 namespace TaskPlannerBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,13 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Priority
 {
-
-    /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="priority")
-     */
-
-    private $tasks;
-
     /**
      * @var int
      *
@@ -36,11 +28,6 @@ class Priority
      */
     private $priority;
 
-
-    public function __construct()
-    {
-        $this->tasks = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -74,21 +61,4 @@ class Priority
     {
         return $this->priority;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * @param mixed $tasks
-     */
-    public function setTasks($tasks)
-    {
-        $this->tasks = $tasks;
-    }
-
 }

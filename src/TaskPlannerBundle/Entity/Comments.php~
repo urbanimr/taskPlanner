@@ -13,13 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Comments
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Tasks", inversedBy="comments")
-     * @ORM\JoinColumn(name="task_id", referencedColumnName="id")
-     */
-    private $task;
-
-
-    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -68,21 +61,4 @@ class Comments
     {
         return $this->comment;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTask()
-    {
-        return $this->task;
-    }
-
-    /**
-     * @param mixed $task
-     */
-    public function setTask($task)
-    {
-        $this->task = $task;
-    }
-
 }

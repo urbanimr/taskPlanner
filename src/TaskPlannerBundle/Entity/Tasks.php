@@ -2,6 +2,7 @@
 
 namespace TaskPlannerBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,44 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tasks
 {
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Priority", inversedBy="tasks")
+     * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
+     */
+
+    private $priority;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Status", inversedBy="tasks")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Tasks", inversedBy="tasks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comments", mappedBy="task")
+     */
+    private $comments;
+
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="tasks")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+
+    private $category;
+
+
+
     /**
      * @var int
      *
@@ -41,6 +80,12 @@ class Tasks
      * @ORM\Column(name="deadline", type="datetime")
      */
     private $deadline;
+
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
 
     /**
@@ -121,4 +166,86 @@ class Tasks
     {
         return $this->deadline;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param mixed $priority
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+    }
+
+
 }

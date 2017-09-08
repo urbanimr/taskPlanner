@@ -7,7 +7,6 @@
  */
 namespace TaskPlannerBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,14 +17,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 class User extends BaseUser
 {
-
-    /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="user")
-     */
-
-    private $tasks;
-
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -37,24 +28,6 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->tasks = new ArrayCollection();
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * @param mixed $tasks
-     */
-    public function setTasks($tasks)
-    {
-        $this->tasks = $tasks;
-    }
-
 
 }

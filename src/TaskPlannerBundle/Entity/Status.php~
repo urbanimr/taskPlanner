@@ -2,7 +2,6 @@
 
 namespace TaskPlannerBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,13 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Status
 {
-    /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="status")
-     */
-
-    private $tasks;
-
-
     /**
      * @var int
      *
@@ -36,12 +28,6 @@ class Status
      */
     private $status;
 
-
-
-    public function __construct()
-    {
-        $this->tasks = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -75,22 +61,4 @@ class Status
     {
         return $this->status;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
-
-    /**
-     * @param mixed $tasks
-     */
-    public function setTasks($tasks)
-    {
-        $this->tasks = $tasks;
-    }
-
-
 }
