@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Tasks
+ * Task
  *
- * @ORM\Table(name="tasks")
- * @ORM\Entity(repositoryClass="TaskPlannerBundle\Repository\TasksRepository")
+ * @ORM\Table(name="task")
+ * @ORM\Entity(repositoryClass="TaskPlannerBundle\Repository\TaskRepository")
  */
-class Tasks
+class Task
 {
 
     /**
@@ -30,13 +30,13 @@ class Tasks
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tasks", inversedBy="tasks")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tasks")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="Comments", mappedBy="task")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="task")
      */
     private $comments;
 
@@ -102,7 +102,7 @@ class Tasks
      * Set title
      *
      * @param string $title
-     * @return Tasks
+     * @return Task
      */
     public function setTitle($title)
     {
@@ -125,7 +125,7 @@ class Tasks
      * Set description
      *
      * @param string $description
-     * @return Tasks
+     * @return Task
      */
     public function setDescription($description)
     {
@@ -148,7 +148,7 @@ class Tasks
      * Set deadline
      *
      * @param \DateTime $deadline
-     * @return Tasks
+     * @return Task
      */
     public function setDeadline($deadline)
     {
@@ -246,6 +246,32 @@ class Tasks
     {
         $this->priority = $priority;
     }
+
+
+
+    /**
+     * Add comments
+     *
+     * @param \TaskPlannerBundle\Entity\Comment $comments
+     * @return Task
+     */
+    public function addComment(\TaskPlannerBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \TaskPlannerBundle\Entity\Comment $comments
+     */
+    public function removeComment(\TaskPlannerBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
 
 
 }

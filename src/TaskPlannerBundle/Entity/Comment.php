@@ -7,13 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Comments
  *
- * @ORM\Table(name="comments")
+ * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="TaskPlannerBundle\Repository\CommentsRepository")
  */
-class Comments
+class Comment
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Tasks", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="Task", inversedBy="comments")
      * @ORM\JoinColumn(name="task_id", referencedColumnName="id")
      */
     private $task;
@@ -50,7 +50,7 @@ class Comments
      * Set comment
      *
      * @param string $comment
-     * @return Comments
+     * @return Comment
      */
     public function setComment($comment)
     {

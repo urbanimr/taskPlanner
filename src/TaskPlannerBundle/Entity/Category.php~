@@ -2,6 +2,7 @@
 
 namespace TaskPlannerBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+
+    /**
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="category")
+     */
+
+    private $tasks;
+
+
     /**
      * @var int
      *
@@ -28,6 +37,11 @@ class Category
      */
     private $category;
 
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -60,5 +74,46 @@ class Category
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
+    }
+
+    /**
+     * @param mixed $tasks
+     */
+    public function setTasks($tasks)
+    {
+        $this->tasks = $tasks;
+    }
+
+
+
+    /**
+     * Add tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     * @return Category
+     */
+    public function addTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     */
+    public function removeTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
     }
 }

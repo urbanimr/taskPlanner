@@ -4,6 +4,7 @@ namespace TaskPlannerBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use function Symfony\Component\Debug\Tests\FatalErrorHandler\test_namespaced_function;
 
 /**
  * Priority
@@ -15,7 +16,7 @@ class Priority
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="priority")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="priority")
      */
 
     private $tasks;
@@ -32,7 +33,7 @@ class Priority
     /**
      * @var string
      *
-     * @ORM\Column(name="priority", type="string", length=60)
+     * @ORM\Column(name="priority", type="string", length=255)
      */
     private $priority;
 
@@ -89,6 +90,36 @@ class Priority
     public function setTasks($tasks)
     {
         $this->tasks = $tasks;
+    }
+
+
+    /**
+     * Add tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     * @return Priority
+     */
+    public function addTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     */
+    public function removeTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->priority;
     }
 
 }

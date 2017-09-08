@@ -20,7 +20,7 @@ class User extends BaseUser
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      */
 
     private $tasks;
@@ -57,4 +57,27 @@ class User extends BaseUser
     }
 
 
+
+    /**
+     * Add tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     * @return User
+     */
+    public function addTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     */
+    public function removeTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
 }

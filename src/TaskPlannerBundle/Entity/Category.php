@@ -15,7 +15,7 @@ class Category
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="category")
      */
 
     private $tasks;
@@ -93,4 +93,33 @@ class Category
     }
 
 
+
+    /**
+     * Add tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     * @return Category
+     */
+    public function addTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     */
+    public function removeTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->category;
+    }
 }

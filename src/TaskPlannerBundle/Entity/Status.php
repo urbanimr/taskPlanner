@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Status
 {
     /**
-     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="status")
      */
 
     private $tasks;
@@ -93,4 +93,33 @@ class Status
     }
 
 
+
+    /**
+     * Add tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     * @return Status
+     */
+    public function addTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \TaskPlannerBundle\Entity\Task $tasks
+     */
+    public function removeTask(\TaskPlannerBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->status;
+    }
 }
