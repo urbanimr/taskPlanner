@@ -25,7 +25,10 @@
                 <th>Comments</th>
                 <th>
                     <div id="sidebar">
-                        Under construction
+                        {{ render(controller(
+                        'TaskPlannerBundle:Comment:indexTask',
+                        { 'taskId': task.id }
+                        )) }}
                     </div>
                 </th>
             </tr>

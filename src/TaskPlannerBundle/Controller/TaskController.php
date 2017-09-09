@@ -2,6 +2,7 @@
 
 namespace TaskPlannerBundle\Controller;
 
+use Symfony\Component\BrowserKit\Response;
 use TaskPlannerBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -17,7 +18,7 @@ class TaskController extends Controller
     /**
      * Lists all task entities.
      *
-     * @Route("/", name="task_index")
+     * @Route("/allusers", name="task_all_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -40,6 +41,8 @@ class TaskController extends Controller
     public function newAction(Request $request)
     {
         $task = new Task();
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        $task->setUser($user);
         $form = $this->createForm('TaskPlannerBundle\Form\TaskType', $task);
         $form->handleRequest($request);
 
@@ -117,6 +120,32 @@ class TaskController extends Controller
 
         return $this->redirectToRoute('task_index');
     }
+
+
+
+
+    /**
+     * Lists all task entities per user.
+     *
+     * @Route("/", name="task_index")
+     * @Method("GET")
+     */
+    public function indexUserAction()
+    {
+
+
+        $user = $this->container->get('security.context')->getToken()->getUser();
+        //$user->getId();
+        $em = $this->getDoctrine()->getManager();
+        $tasks = $em->getRepository('TaskPlannerBundle:Task')->findBy(['user' =>$user]);
+
+        return $this->render('task/index.html.twig', array(
+            'tasks' => $tasks,));
+
+    }
+
+
+
 
     /**
      * Creates a form to delete a task entity.

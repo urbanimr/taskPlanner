@@ -13,6 +13,6 @@ class DefaultController extends Controller
     public function indexAction()
     {
         //return $this->render('TaskPlannerBundle:Default:index.html.twig');
-        return $this->redirectToRoute('task_index');
+        return $this->redirectToRoute('fos_user_security_login');
     }
 }

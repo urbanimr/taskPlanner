@@ -119,6 +119,25 @@ class CommentController extends Controller
     }
 
     /**
+     * Lists comments to current task.
+     *
+     * @Route("/showall/{taskId}", name="comments_task")
+     * @Method("GET")
+     */
+    public function indexTaskAction($taskId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $comments = $em->getRepository('TaskPlannerBundle:Comment')->findByTask($taskId);
+
+        return $this->render('comment/index.html.twig', array(
+            'comments' => $comments,
+        ));
+    }
+
+
+
+    /**
      * Creates a form to delete a comment entity.
      *
      * @param Comment $comment The comment entity

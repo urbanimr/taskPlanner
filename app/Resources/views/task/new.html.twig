@@ -4,7 +4,21 @@
     <h1>Task creation</h1>
 <div class="container">
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description) }}
+    <div>
+        {{ form_label(form.deadline) }}
+        {{ form_widget(form.deadline) }}
+    </div>
+    {{ form_label(form.priority) }}
+    {{ form_widget(form.priority) }}
+    {{ form_label(form.status) }}
+    {{ form_widget(form.status) }}
+    {{ form_label(form.category) }}
+    {{ form_widget(form.category) }}
+
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 </div>
