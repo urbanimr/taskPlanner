@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentsRepository extends EntityRepository
 {
+    public function findCommentsByTask($task){
+        $comments = $this->getEntityManager()->createQuery(
+            'SELECT C FROM TaskPlannerBundle:Comments C WHERE C.task = :task'
+        )
+            ->setParameter('task', $task)
+            ->getResult();
+
+    }
 }

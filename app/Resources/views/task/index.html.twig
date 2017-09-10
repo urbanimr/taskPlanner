@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Tasks list</h1>
+    <h1>Current tasks list</h1>
 
     <div class="container">
     <table class="table">
@@ -12,17 +12,23 @@
                 <th>Description</th>
                 <th>Deadline</th>
                 <th>Owner</th>
+                <th>Comments</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for task in tasks %}
+
+        {% for task in tasks2 %}
+        {% if date(task.deadline) >= date()  %}
             <tr>
                 <td><a href="{{ path('task_show', { 'id': task.id }) }}">{{ task.id }}</a></td>
                 <td>{{ task.title }}</td>
                 <td>{{ task.description }}</td>
                 <td>{% if task.deadline %}{{ task.deadline|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ task.user }}</td>
+                <td>
+                    {{ task.comments |length }}
+                </td>
                 <td>
                     <ul>
                         <li>
@@ -31,12 +37,68 @@
                         <li>
                             <a href="{{ path('task_edit', { 'id': task.id }) }}">edit</a>
                         </li>
+                        <li>
+                            <a href="http://gmail.com">send e-mail</a>
+                        </li>
                     </ul>
                 </td>
             </tr>
-        {% endfor %}
+            {% endif %}
+            {% endfor %}
+
+
         </tbody>
     </table>
+    </div>
+
+    <h1>Old tasks list</h1>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Owner</th>
+                <th>Comments</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for task in tasks %}
+                {% if date(task.deadline) < date()  %}
+                    <tr>
+                        <td><a href="{{ path('task_show', { 'id': task.id }) }}">{{ task.id }}</a></td>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>{% if task.deadline %}{{ task.deadline|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{{ task.user }}</td>
+                        <td>
+                            {{ task.comments |length }}
+                        </td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('task_show', { 'id': task.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('task_edit', { 'id': task.id }) }}">edit</a>
+                                </li>
+                                <li>
+                                    <a href="http://gmail.com">send e-mail</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+
+
+            </tbody>
+        </table>
     </div>
 
     <ul>

@@ -5,6 +5,11 @@
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
+
+        {{ form_label(form.comment) }}
+        {{ form_widget(form.comment) }}
+
+
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

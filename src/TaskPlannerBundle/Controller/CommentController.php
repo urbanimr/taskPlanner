@@ -2,10 +2,13 @@
 
 namespace TaskPlannerBundle\Controller;
 
+use Symfony\Component\BrowserKit\Response;
 use TaskPlannerBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use TaskPlannerBundle\Entity\Task;
+use TaskPlannerBundle\Form\CommentType;
 
 /**
  * Comment controller.
@@ -34,12 +37,14 @@ class CommentController extends Controller
     /**
      * Creates a new comment entity.
      *
-     * @Route("/new", name="comment_new")
+     * @Route("/new/", name="comment_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
         $comment = new Comment();
+
+
         $form = $this->createForm('TaskPlannerBundle\Form\CommentType', $comment);
         $form->handleRequest($request);
 
@@ -132,8 +137,54 @@ class CommentController extends Controller
 
         return $this->render('comment/index.html.twig', array(
             'comments' => $comments,
+            'taskId' => $taskId,
         ));
     }
+
+    /**
+     * New comment to current task.
+     *
+     * @Route("/new/{taskId}", name="new_comments_task")
+     * @Method({"GET", "POST"})
+     */
+    public function newCommentToTaskAction(Request $request,  $taskId)
+    {
+
+        $comment = new Comment();
+
+
+
+
+
+
+        //return new Response(var_dump($comment));
+
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $task = $em->getRepository('TaskPlannerBundle:Task')->findOneById($taskId);
+            $comment->setTask($task);
+            //$comment->setTask($task);
+
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('comment_show', array('id' => $comment->getId()));
+        }
+
+        //return new Response(var_dump($comment->getTask()));
+        return $this->render('comment/new.html.twig', array(
+            'comment' => $comment,
+            'form' => $form->createView(),
+        ));
+
+
+    }
+
+
 
 
 

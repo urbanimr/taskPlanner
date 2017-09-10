@@ -3,6 +3,8 @@
 namespace TaskPlannerBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use TaskPlannerBundle\Entity\Task;
+
 
 /**
  * TaskRepository
@@ -12,4 +14,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class TaskRepository extends EntityRepository
 {
+    public function findUserOldTask($user){
+        return $this->getEntityManager()->createQuery(
+            'SELECT t FROM TaskPlannerBundle:Task t WHERE t.deadline <= :date AND t.user = :user ORDER BY t.deadline'
+        )
+            ->setParameter('date', new \DateTime())
+            ->setParameter('user', $user )
+            ->getResult();
+    }
+
+
+    public function findUserCurrentTask($user){
+        return $this->getEntityManager()->createQuery(
+            'SELECT t FROM TaskPlannerBundle:Task t WHERE t.deadline > :date AND t.user = :user ORDER BY t.deadline'
+        )
+            ->setParameter('date', new \DateTime())
+            ->setParameter('user', $user )
+            ->getResult();
+    }
 }

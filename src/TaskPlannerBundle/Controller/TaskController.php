@@ -6,7 +6,11 @@ use Symfony\Component\BrowserKit\Response;
 use TaskPlannerBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+
+
+
 
 /**
  * Task controller.
@@ -29,6 +33,7 @@ class TaskController extends Controller
 
         return $this->render('task/index.html.twig', array(
             'tasks' => $tasks,
+            'tasks2' =>[]
         ));
     }
 
@@ -135,15 +140,76 @@ class TaskController extends Controller
 
 
         $user = $this->container->get('security.context')->getToken()->getUser();
-        //$user->getId();
+
         $em = $this->getDoctrine()->getManager();
-        $tasks = $em->getRepository('TaskPlannerBundle:Task')->findBy(['user' =>$user]);
+        $tasks1 = $em->getRepository('TaskPlannerBundle:Task')->findUserOldTask($user);
+        $tasks2 = $em->getRepository('TaskPlannerBundle:Task')->findUserCurrentTask($user);
+
+
 
         return $this->render('task/index.html.twig', array(
-            'tasks' => $tasks,));
+            'tasks' => $tasks1,
+            'tasks2' => $tasks2));
 
     }
 
+    /**
+     * Lists all task entities per user.
+     *
+     * @Route("/testmail", name="test_mail")
+     * @Method("GET")
+     */
+
+    public function sendEmailAction(){
+
+        $transport = (new \Swift_SmtpTransport('smtp.gmail.org', 25))
+                        ->setUsername('marcin.urbaniak@gmail.com')
+                        ->setPassword('password');
+
+
+        $mailer = new \Swift_Mailer($transport);
+
+        $message = (new \Swift_Message('Wonderful Subject'))
+            ->setFrom(['john@doe.com' => 'John Doe'])
+            ->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
+            ->setBody('Here is the message itself');
+
+        $result = $mailer->send($message);
+
+
+
+    }
+
+
+
+
+//    /**
+//     * Lists all task entities per user.
+//     *
+//     * @Route("/testmail", name="test_mail")
+//     *
+//     */
+//
+//    public function sendSpoolAction($messages = 10)
+//    {
+//        $kernel = $this->get('kernel');
+//        $application = new Application($kernel);
+//        $application->setAutoExit(false);
+//
+//        $input = new ArrayInput(array(
+//            'command' => 'swiftmailer:spool:send',
+//            '--message-limit' => $messages,
+//        ));
+//        // You can use NullOutput() if you don't need the output
+//        $output = new BufferedOutput();
+//        $application->run($input, $output);
+//
+//        // return the output, don't use if you used NullOutput()
+//        $content = $output->fetch();
+//
+//        // return new Response(""), if you used NullOutput()
+//        return new Response($content);
+//    }
 
 
 

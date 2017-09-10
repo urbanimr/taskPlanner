@@ -85,6 +85,10 @@ class Comment
         $this->task = $task;
     }
 
-
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->comment;
+    }
 
 }
